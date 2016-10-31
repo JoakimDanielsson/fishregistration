@@ -1,0 +1,22 @@
+version: '2'
+services:
+  db2:
+    image: tutum/mysql
+    networks:
+      - default
+    ports:
+      - "3306:3306"
+    volumes:
+      - /dev/urandom:/dev/random
+    environment:
+      MYSQL_PASS: "fishregistration"
+      ON_CREATE_DB: "fishregistration"
+
+  fishregistration:
+    build: .
+    networks:
+      - default
+    depends_on:
+      - db2
+    ports:
+      - "8888:8080"

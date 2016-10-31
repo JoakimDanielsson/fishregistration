@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Fish registration</title>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.1.5/angular.min.js"></script>
+    <script type="text/javascript" , src="js/fish_registration.js"></script>
+    <link href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap.min.css"
+          rel="stylesheet" type="text/css"/>
+    <script src="js/node_modules/chart.js/dist/Chart.min.js"></script>
+    <script src="js/node_modules/angular-chart.js/dist/angular-chart.min.js"></script>
+    <script src="http://maps.google.com/maps/api/js?sensor=false"></script>
+    <script src="js/ng-map.min.js"></script>
+</head>
+<body ng-app="myApp">
+
+<div ng-controller="fishCtrl">
+    <h2>Number of fish registered: {{fishes.length}}</h2>
+    <ul class="unstyled">
+        <li ng-repeat="fish in fishes">
+            {{fish}}
+            <td>
+                <button class="btn" ng-click="deleteFish(fish.id)">
+                    Delete fish
+                </button>
+            </td>
+        </li>
+    </ul>
+
+    <form name="newRegistration">
+        <label>
+            Weight (kg):
+            <input type="text" ng-model="fishWeight" required>
+        </label>
+        <label>
+            Length (cm):
+            <input type="text" ng-model="fishLength" required>
+        </label>
+        <label>
+            Longitude:
+            <input type="text" ng-model="fishLongitude" required>
+        </label>
+        <label>
+            Latitude:
+            <input type="text" ng-model="fishLatitude" required>
+        </label>
+        <label>
+            Species:
+            <select ng-model="fishSpecies">
+                <option value="Sea Trout">Sea Trout</option>
+                <option value="Pike">Pike</option>
+                <option value="Redfin">Redfin</option>
+                <option value="Other">Other</option>
+            </select>
+        </label>
+        <button class="btn" ng-click="addFish()">Register fish</button>
+    </form>
+
+    <!--Pie chart displaying number of caught fish-->
+    <div style="max-width:200px; max-height:200px">
+        <canvas id="pie"
+                class="chart chart-pie"
+                chart-data="data"
+                chart-labels="labels"
+                chart-options="options">
+        </canvas>
+    </div>
+
+    <!--Map centered to Gothenburg-->
+    <div style="max-width:400px; max-height:400px">
+        <ng-map zoom="9" center="[57.70, 11.97]">
+            <marker ng-repeat="fish in fishes"
+                    position="[{{fish.latitude}}, {{fish.longitude}}]">
+            </marker>
+        </ng-map>
+    </div>
+</div>
+</body>
+</html>
