@@ -24,7 +24,33 @@ myApp.service('dataService', function ($http) {
     }
 });
 
-myApp.controller('fishCtrl', function ($scope, dataService) {
+myApp.controller('mapCtrl', function ($scope, dataService) {
+    dataService.getAllFish().then(function (dataResponse) {
+        $scope.fishes = dataResponse.data;
+    });
+});
+
+myApp.controller('graphCtrl', function ($scope, dataService) {
+
+    //Pie chart
+    $scope.labels = ["Sea Trout", "Pike", "Redfin", "Other"];
+    $scope.data = [0, 0, 0, 0];
+
+    dataService.getNrBySpecies("Sea Trout").then(function (dataResponse) {
+        $scope.data[0] = dataResponse.data;
+    });
+    dataService.getNrBySpecies("Pike").then(function (dataResponse) {
+        $scope.data[1] = dataResponse.data;
+    });
+    dataService.getNrBySpecies("Redfin").then(function (dataResponse) {
+        $scope.data[2] = dataResponse.data;
+    });
+    dataService.getNrBySpecies("Other").then(function (dataResponse) {
+        $scope.data[3] = dataResponse.data;
+    });
+});
+
+myApp.controller('registerCtrl', function ($scope, dataService) {
     $scope.fishes = [];
 
     //Get the current position. Will not change until the page is reloaded.
@@ -33,14 +59,10 @@ myApp.controller('fishCtrl', function ($scope, dataService) {
         $scope.fishLongitude = position.coords.longitude;
     });
 
-    //Pie chart
-    $scope.labels = ["Sea Trout", "Pike", "Redfin", "Other"];
-    $scope.data = [0, 0, 0, 0];
 
     $scope.getAllFish = function () {
         dataService.getAllFish().then(function (dataResponse) {
             $scope.fishes = dataResponse.data;
-            $scope.updatePieChart();
         });
     };
 
@@ -61,18 +83,4 @@ myApp.controller('fishCtrl', function ($scope, dataService) {
         });
     };
 
-    $scope.updatePieChart = function () {
-        dataService.getNrBySpecies("Sea Trout").then(function (dataResponse) {
-            $scope.data[0] = dataResponse.data;
-        });
-        dataService.getNrBySpecies("Pike").then(function (dataResponse) {
-            $scope.data[1] = dataResponse.data;
-        });
-        dataService.getNrBySpecies("Redfin").then(function (dataResponse) {
-            $scope.data[2] = dataResponse.data;
-        });
-        dataService.getNrBySpecies("Other").then(function (dataResponse) {
-            $scope.data[3] = dataResponse.data;
-        });
-    }
 });
