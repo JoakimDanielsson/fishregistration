@@ -53,6 +53,10 @@ myApp.controller('graphCtrl', function ($scope, dataService) {
 myApp.controller('registerCtrl', function ($scope, dataService) {
     $scope.fishes = [];
 
+    dataService.getAllFish().then(function (dataResponse) {
+        $scope.fishes = dataResponse.data;
+    });
+
     //Get the current position. Will not change until the page is reloaded.
     navigator.geolocation.getCurrentPosition(function (position) {
         $scope.fishLatitude = position.coords.latitude;

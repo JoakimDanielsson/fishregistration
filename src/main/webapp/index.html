@@ -15,8 +15,8 @@
 <body ng-app="myApp" ng-controller="mapCtrl">
 
 <!--Map centered to Gothenburg-->
-<div style="max-width:400px; max-height:400px">
-    <ng-map zoom="9" center="[57.70, 11.97]">
+<div style="max-width:800px; max-height:800px">
+    <ng-map zoom="8" center="[57.70, 11.97]">
         <marker ng-repeat="fish in fishes"
                 position="[{{fish.latitude}}, {{fish.longitude}}]">
         </marker>

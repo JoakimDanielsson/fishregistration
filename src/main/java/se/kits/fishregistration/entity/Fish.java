@@ -2,7 +2,9 @@ package se.kits.fishregistration.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Date;
+import java.util.Calendar;
+import java.util.TimeZone;
 
 /**
  * Created by joakim on 2016-10-24.
@@ -72,7 +74,8 @@ public class Fish implements Serializable {
         this.longitude = longitude;
         this.latitude = latitude;
         this.species = species;
-        this.date = new Date();
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Europe/Gothenburg"));
+        this.date = new Date(calendar.getTime().getTime());
     }
 
     public Fish() {
