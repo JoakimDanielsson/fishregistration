@@ -13,12 +13,27 @@
 </head>
 <body ng-app="myApp" ng-controller="graphCtrl">
 
+<label>
+    Fish distribution:
+</label>
 <!--Pie chart displaying number of caught fish-->
 <div style="max-width:200px; max-height:200px">
     <canvas id="pie"
             class="chart chart-pie"
-            chart-data="data"
-            chart-labels="labels"
+            chart-data="piedata"
+            chart-labels="pielabels"
+            chart-options="options">
+    </canvas>
+</div>
+
+<label>
+    Fish caught each month:
+</label>
+<div style="max-width:400px; max-height:400px">
+    <canvas id="bar"
+            class="chart chart-bar"
+            chart-data="bardata"
+            chart-labels="barlabels"
             chart-options="options">
     </canvas>
 </div>
@@ -28,7 +43,7 @@
         <a href="index.html">Go to map!</a>
     </li>
     <li>
-        <a href="fish_registration.html">Go to registration!</a>
+        <a href="registration.html">Go to registration!</a>
     </li>
 </ul>
 

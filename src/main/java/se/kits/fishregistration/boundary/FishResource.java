@@ -31,23 +31,6 @@ public class FishResource {
         return Response.ok(fish).build();
     }
 
-//    @GET
-//    @Produces(APPLICATION_JSON)
-//    @Path("/{species}")
-//    public Response getFishBySpecies(@PathParam("species") String species) {
-//        List<Fish> fish = fishManager.getFishBySpecies(species);
-//        return Response.ok(fish).build();
-//    }
-
-
-    @GET
-    @Produces(APPLICATION_JSON)
-    @Path("/{species}")
-    public Response getFishBySpecies(@PathParam("species") String species) {
-        int fishNr = fishManager.getNrFishBySpecies(species);
-        return Response.ok(fishNr).build();
-    }
-
     @POST
     @Path("/{weight}/{length}/{longitude}/{latitude}/{species}")
     public Response createFish(

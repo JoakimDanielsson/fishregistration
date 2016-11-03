@@ -13,12 +13,6 @@ import java.util.TimeZone;
 @Entity
 @NamedQueries({
         @NamedQuery(
-                name = "findFishById",
-                query = "SELECT f " +
-                        "FROM Fish f " +
-                        "WHERE f.id = :id"
-        ),
-        @NamedQuery(
                 name = "getAllFish",
                 query = "SELECT f " +
                         "FROM Fish f"
@@ -27,18 +21,6 @@ import java.util.TimeZone;
                 name = "deleteFishById",
                 query = "DELETE FROM Fish f " +
                         "WHERE f.id = :id"
-        ),
-//        @NamedQuery(
-//                name = "getFishBySpecies",
-//                query = "SELECT f " +
-//                        "FROM Fish f " +
-//                        "WHERE f.species = :species"
-//        ),
-        @NamedQuery(
-                name = "getNrFishBySpecies",
-                query = "SELECT COUNT(f) " +
-                        "FROM Fish f " +
-                        "WHERE f.species = :species"
         )
 })
 @Table(name = "FISH")

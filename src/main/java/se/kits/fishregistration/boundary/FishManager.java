@@ -34,15 +34,4 @@ public class FishManager {
                 .setParameter("id", id)
                 .executeUpdate();
     }
-
-//    public List<Fish> getFishBySpecies(String species) {
-//        return em.createNamedQuery("getFishBySpecies", Fish.class)
-//                .setParameter("species", species)
-//                .getResultList();
-//    }
-
-    public int getNrFishBySpecies(String species) {
-        return ((Number) em.createNamedQuery("getNrFishBySpecies")
-                .setParameter("species", species).getSingleResult()).intValue();
-    }
 }
