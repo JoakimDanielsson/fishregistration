@@ -37,10 +37,13 @@ myApp.controller('graphCtrl', function ($scope, dataService) {
 //    dataService.addFish(5, 100, 10, 10, "Other").then();
 
      $scope.pielabels = ["Sea Trout", "Pike", "Redfin", "Other"];
-     $scope.barlabels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+     $scope.barlabels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul",
+                         "Aug", "Sep", "Oct", "Nov", "Dec"];
 
      //Create array from 1 to 12 symbolizing months
-     monthNr = new Array(12).join().split(',').map(function(item, index){ return ++index;});
+     monthNr = new Array(12).join().split(',')
+                                   .map(function(item, index){
+                                            return ++index;});
 
      dataService.getAllFish().then(function (dataResponse) {
          $scope.fishes = dataResponse.data;
