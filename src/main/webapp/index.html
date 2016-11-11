@@ -3,19 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <title>Map</title>
+    <!--Angular-->
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.1.5/angular.min.js"></script>
-    <script type="text/javascript" , src="js/fish_registration.js"></script>
+
+    <!--css-->
     <link href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap.min.css"
           rel="stylesheet" type="text/css"/>
+
+    <!--Logic for fish registration-->
+    <script type="text/javascript" , src="js/fish_registration.js"></script>
+
+
+    <!--Charts-->
     <script src="js/node_modules/chart.js/dist/Chart.min.js"></script>
     <script src="js/node_modules/angular-chart.js/dist/angular-chart.min.js"></script>
+
+    <!--Google maps-->
     <script src="http://maps.google.com/maps/api/js?sensor=false"></script>
     <script src="js/ng-map.min.js"></script>
 </head>
 <body ng-app="myApp" ng-controller="mapCtrl">
 
 <!--Map centered to Gothenburg-->
-<div style="max-width:800px; max-height:800px">
+<div style="width:50%; height:50%">
     <ng-map zoom="8" center="[57.70, 11.97]">
         <marker ng-repeat="fish in fishes"
                 position="[{{fish.latitude}}, {{fish.longitude}}]">

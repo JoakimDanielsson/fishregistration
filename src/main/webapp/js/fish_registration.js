@@ -29,12 +29,12 @@ myApp.controller('mapCtrl', function ($scope, dataService) {
 myApp.controller('graphCtrl', function ($scope, dataService) {
 
     //Dummy data
-//    dataService.addFish(5, 100, 10, 10, "Pike").then();
-//    dataService.addFish(5, 100, 10, 10, "Pike").then();
-//    dataService.addFish(5, 100, 10, 10, "Redfin").then();
-//    dataService.addFish(5, 100, 10, 10, "Redfin").then();
-//    dataService.addFish(5, 100, 10, 10, "Sea Trout").then();
-//    dataService.addFish(5, 100, 10, 10, "Other").then();
+    dataService.addFish(5, 100, 10, 10, "Pike");
+    dataService.addFish(5, 100, 10, 10, "Pike");
+    dataService.addFish(5, 100, 10, 10, "Redfin");
+    dataService.addFish(5, 100, 10, 10, "Redfin");
+    dataService.addFish(5, 100, 10, 10, "Sea Trout");
+    dataService.addFish(5, 100, 10, 10, "Other");
 
      $scope.pielabels = ["Sea Trout", "Pike", "Redfin", "Other"];
      $scope.barlabels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul",
@@ -61,6 +61,7 @@ myApp.controller('graphCtrl', function ($scope, dataService) {
 });
 
 myApp.controller('registerCtrl', function ($scope, dataService) {
+
 
     dataService.getAllFish().then(function (dataResponse) {
         $scope.fishes = dataResponse.data;
