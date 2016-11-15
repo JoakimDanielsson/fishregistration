@@ -15,7 +15,7 @@ import java.util.List;
 public class UserManager {
 
     @PersistenceContext(name = "ds")
-    private EntityManager = em;
+    private EntityManager em;
 
     public List<User> getUsers() {
         return em.createNamedQuery("getUsers", User.class)

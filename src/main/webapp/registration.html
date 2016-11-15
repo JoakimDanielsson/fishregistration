@@ -10,19 +10,11 @@
           rel="stylesheet" type="text/css"/>
 
     <!--Logic for fish registration-->
-    <script type="text/javascript" , src="js/fish_registration.js"></script>
-
-    <!--Charts-->
-    <script src="js/node_modules/chart.js/dist/Chart.min.js"></script>
-    <script src="js/node_modules/angular-chart.js/dist/angular-chart.min.js"></script>
-
-    <!--Google maps-->
-    <script src="http://maps.google.com/maps/api/js?sensor=false"></script>
-    <script src="js/ng-map.min.js"></script>
+    <script type="text/javascript" , src="js/registration_view.js"></script>
 </head>
-<body ng-app="myApp">
+<body ng-app="registrationApp">
 
-<div ng-controller="registerCtrl">
+<div ng-controller="registrationCtrl">
     <h2>Number of fish registered: {{fishes.length}}</h2>
     <ul class="unstyled">
         <li ng-repeat="fish in fishes">
@@ -62,7 +54,7 @@
         <a href="index.html">Go to map!</a>
     </li>
     <li>
-        <a href="graphs.html">Go to graphs!</a>
+        <a href="charts.html">Go to graphs!</a>
     </li>
 </ul>
 

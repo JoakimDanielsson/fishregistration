@@ -5,11 +5,9 @@
 
     <persistence-unit name="ds" transaction-type="JTA">
         <jta-data-source>java:jboss/datasources/ExampleMySQLDS</jta-data-source>
-        <class>se.kits.fishregistration.entity.Fish</class>
         <properties>
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
         </properties>
     </persistence-unit>
-
 </persistence>

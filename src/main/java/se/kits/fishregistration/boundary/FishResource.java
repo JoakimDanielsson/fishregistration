@@ -40,7 +40,7 @@ public class FishResource {
             @PathParam("latitude") double latitude,
             @PathParam("species") String species) {
         final Fish fish = fishManager.createFish(weight, length, longitude,
-                                                 latitude, species);
+                latitude, species);
         return Response.created(URI.create("/fish/" + fish.getId())).build();
     }
 

@@ -17,7 +17,7 @@ import java.util.List;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 @Stateless
-@Path("/user")
+@Path("/users")
 public class UserResource {
 
     @Inject
@@ -32,12 +32,12 @@ public class UserResource {
     }
 
     @POST
-    @Path("/{first}/{last}")
+    @Path("/{firstName}/{lastName}")
     public Response createUser(
-            @PathParam("first") String firstName,
-            @PathParam("last") String lastName) {
+            @PathParam("firstName") String firstName,
+            @PathParam("lastName") String lastName) {
         final User user = userManager.createUser(firstName, lastName);
-        return Response.created(URI.create("/user/" + user.getId())).build();
+        return Response.created(URI.create("/users/" + user.getId())).build();
     }
 
     @DELETE

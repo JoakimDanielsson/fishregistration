@@ -22,6 +22,7 @@ import java.io.Serializable;
 @Table(name = "USER")
 public class User implements Serializable{
     @Id
+    @Column (name = "user_id")
     @GeneratedValue
     private Long id;
 
@@ -62,6 +63,4 @@ public class User implements Serializable{
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-
-
 }

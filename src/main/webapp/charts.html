@@ -9,24 +9,20 @@
     <link href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap.min.css"
           rel="stylesheet" type="text/css"/>
 
-    <!--Logic for fish registration-->
-    <script type="text/javascript" , src="js/fish_registration.js"></script>
+    <!--Logic-->
+    <script type="text/javascript" , src="js/chart_view.js"></script>
 
     <!--Charts-->
     <script src="js/node_modules/chart.js/dist/Chart.min.js"></script>
     <script src="js/node_modules/angular-chart.js/dist/angular-chart.min.js"></script>
-
-    <!--Google maps-->
-    <script src="http://maps.google.com/maps/api/js?sensor=false"></script>
-    <script src="js/ng-map.min.js"></script>
 </head>
-<body ng-app="myApp" ng-controller="graphCtrl">
+<body ng-app="chartApp" ng-controller="chartCtrl">
 
 <label>
-    Fish distribution:
+    <h2>Fish distribution:</h2>
 </label>
 <!--Pie chart displaying number of caught fish-->
-<div style="width:50%; height:50%">
+<div style="width:30%; height:30%">
     <canvas id="pie"
             class="chart chart-pie"
             chart-data="piedata"
@@ -36,9 +32,9 @@
 </div>
 
 <label>
-    Fish caught each month:
+    <h2>Fish caught each month:</h2>
 </label>
-<div style="width:50%; height:50%">
+<div style="width:30%; height:30%">
     <canvas id="bar"
             class="chart chart-bar"
             chart-data="bardata"

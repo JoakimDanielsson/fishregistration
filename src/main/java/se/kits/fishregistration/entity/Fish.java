@@ -47,8 +47,6 @@ public class Fish implements Serializable {
     @Column
     private Date date;
 
-
-
     public Fish(double weight, double length, double longitude,
                 double latitude, String species) {
         this.weight = weight;
