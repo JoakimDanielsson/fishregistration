@@ -1,5 +1,7 @@
 package se.kits.fishregistration.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
@@ -15,15 +17,21 @@ import java.util.List;
                         "FROM User u"
         ),
         @NamedQuery(
+                name = "getUserById",
+                query = "SELECT u " +
+                        "FROM User u " +
+                        "WHERE u.id = :id"
+        ),
+        @NamedQuery(
                 name = "deleteUserById",
                 query = "DELETE FROM User u " +
                         "WHERE u.id = :id"
         )
 })
 @Table(name = "USER")
-public class User implements Serializable{
+public class User implements Serializable {
     @Id
-    @Column (name = "user_id")
+    @Column(name = "user_id")
     @GeneratedValue
     private Long id;
 
@@ -34,7 +42,8 @@ public class User implements Serializable{
     private String lastName;
 
     @Column
-    @OneToMany(cascade=CascadeType.ALL, mappedBy="user")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @JsonBackReference
     private List<BlogPost> blogPosts;
 
     public User(String firstName, String lastName) {
@@ -42,7 +51,7 @@ public class User implements Serializable{
         this.lastName = lastName;
     }
 
-    public User(){
+    public User() {
     }
 
     public Long getId() {
@@ -68,6 +77,7 @@ public class User implements Serializable{
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
+
     public List<BlogPost> getBlogPosts() {
         return blogPosts;
     }

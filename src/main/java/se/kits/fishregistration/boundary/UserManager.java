@@ -18,8 +18,10 @@ public class UserManager {
     private EntityManager em;
 
     public List<User> getUsers() {
-        return em.createNamedQuery("getUsers", User.class)
-                .getResultList();
+        return em.createNamedQuery("getUsers", User.class).getResultList();
+    }
+    public User getUserById(Long id) {
+        return em.createNamedQuery("getUserById", User.class).setParameter("id", id).getSingleResult();
     }
     public User createUser(String firstName, String lastName) {
         return em.merge(new User(firstName, lastName));

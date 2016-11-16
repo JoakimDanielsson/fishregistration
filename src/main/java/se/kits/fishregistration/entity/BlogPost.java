@@ -1,5 +1,7 @@
 package se.kits.fishregistration.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -27,7 +29,8 @@ public class BlogPost implements Serializable {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name="user_id", nullable=false)
+    @JoinColumn(name="user_id")
+    @JsonManagedReference
     private User user;
 
     @Column
