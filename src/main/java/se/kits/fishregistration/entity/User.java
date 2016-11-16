@@ -2,6 +2,7 @@ package se.kits.fishregistration.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by joakim on 2016-11-11.
@@ -31,6 +32,10 @@ public class User implements Serializable{
 
     @Column
     private String lastName;
+
+    @Column
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="user")
+    private List<BlogPost> blogPosts;
 
     public User(String firstName, String lastName) {
         this.firstName = firstName;
@@ -62,5 +67,12 @@ public class User implements Serializable{
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+    public List<BlogPost> getBlogPosts() {
+        return blogPosts;
+    }
+
+    public void setBlogPosts(List<BlogPost> blogPosts) {
+        this.blogPosts = blogPosts;
     }
 }
