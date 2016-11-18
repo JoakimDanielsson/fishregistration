@@ -18,8 +18,9 @@ import java.util.TimeZone;
                         "FROM Fish f"
         ),
         @NamedQuery(
-                name = "deleteFishById",
-                query = "DELETE FROM Fish f " +
+                name = "getFishById",
+                query = "SELECT f " +
+                        "FROM Fish f " +
                         "WHERE f.id = :id"
         )
 })

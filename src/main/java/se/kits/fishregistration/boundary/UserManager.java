@@ -20,16 +20,14 @@ public class UserManager {
     public List<User> getUsers() {
         return em.createNamedQuery("getUsers", User.class).getResultList();
     }
+
     public User getUserById(Long id) {
         return em.createNamedQuery("getUserById", User.class).setParameter("id", id).getSingleResult();
     }
+
     public User createUser(String firstName, String lastName) {
         return em.merge(new User(firstName, lastName));
     }
 
-    public void deleteUser(Long id) {
-        em.createNamedQuery("deleteUserById")
-                .setParameter("id", id)
-                .executeUpdate();
-    }
+    public void deleteUser(Long id) { em.remove(getUserById(id)); }
 }

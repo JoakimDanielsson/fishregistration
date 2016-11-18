@@ -21,17 +21,12 @@ import java.util.List;
                 query = "SELECT u " +
                         "FROM User u " +
                         "WHERE u.id = :id"
-        ),
-        @NamedQuery(
-                name = "deleteUserById",
-                query = "DELETE FROM User u " +
-                        "WHERE u.id = :id"
         )
 })
 @Table(name = "USER")
 public class User implements Serializable {
     @Id
-    @Column(name = "user_id")
+    @Column(name="user_id")
     @GeneratedValue
     private Long id;
 
@@ -42,7 +37,7 @@ public class User implements Serializable {
     private String lastName;
 
     @Column
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.ALL)
     @JsonBackReference
     private List<BlogPost> blogPosts;
 

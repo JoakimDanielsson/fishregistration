@@ -24,14 +24,16 @@ public class FishManager {
                 .getResultList();
     }
 
+    public Fish getFishById(Long id) {
+        return em.createNamedQuery("getFishById", Fish.class).setParameter("id", id).getSingleResult();
+    }
+
     public Fish createFish(double weight, double length, double longitude,
                            double latitude, String species) {
         return em.merge(new Fish(weight, length, longitude, latitude, species));
     }
 
     public void deleteFish(Long id) {
-        em.createNamedQuery("deleteFishById")
-                .setParameter("id", id)
-                .executeUpdate();
+        em.remove(getFishById(id));
     }
 }

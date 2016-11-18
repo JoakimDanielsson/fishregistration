@@ -16,8 +16,9 @@ import java.io.Serializable;
                         "FROM BlogPost b"
         ),
         @NamedQuery(
-                name = "deleteBlogPostById",
-                query = "DELETE FROM BlogPost b " +
+                name = "getBlogPostById",
+                query = "SELECT b " +
+                        "FROM BlogPost b " +
                         "WHERE b.id = :id"
         )
 })
@@ -29,7 +30,7 @@ public class BlogPost implements Serializable {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name="user_id")
+    @JoinColumn(name = "user_id")
     @JsonManagedReference
     private User user;
 

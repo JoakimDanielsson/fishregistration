@@ -46,7 +46,7 @@ public class BlogPostResource {
     }
 
     @DELETE
-    @Path("/{blogId")
+    @Path("/{blogId}")
     public Response deleteBlogPost(@PathParam("blogId") Long id) {
         blogPostManager.deleteBlogPost(id);
         return Response.noContent().build();

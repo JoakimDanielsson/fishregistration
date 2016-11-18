@@ -22,11 +22,14 @@ public class BlogPostManager {
         return em.createNamedQuery("getBlogPosts", BlogPost.class).getResultList();
     }
 
+    public BlogPost getBlogPostById(Long id) {
+        return em.createNamedQuery("getBlogPostById", BlogPost.class).setParameter("id", id).getSingleResult();
+    }
+
     public BlogPost createBlogPost(User user, String blogText) {
         return em.merge(new BlogPost(user, blogText));
     }
 
-    public void deleteBlogPost(Long id) {
-        em.createNamedQuery("deleteBlogPostById").setParameter("id", id).executeUpdate();
-    }
+    public void deleteBlogPost(Long id) { em.remove(getBlogPostById(id)); }
+
 }
