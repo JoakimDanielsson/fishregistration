@@ -22,6 +22,10 @@ myApp.config(function($routeProvider) {
             templateUrl : 'pages/user_registration.html',
             controller : 'userRegistrationCtrl'
         })
+        .when('/blog', {
+            templateUrl : 'pages/blog.html',
+            controller : 'blogCtrl'
+        })
 });
 
 myApp.service('dataService', function ($http) {
@@ -40,7 +44,16 @@ myApp.service('dataService', function ($http) {
     }
 
     this.addUser = function (firstName, lastName) {
-        return $http.post('/fishregistration-1.0-SNAPSHOT/api/users/' + firstName + "/" + lastName);
+        return $http.post('/fishregistration-1.0-SNAPSHOT/api/users/' +
+            firstName + "/" + lastName);
+    }
+    
+    this.getAllBlogPosts = function () {
+        return $http.get('/fishregistration-1.0-SNAPSHOT/api/blog/');
+    }
+
+    this.addBlogPost = function (userId, blogText) {
+        return $http.post('/fishregistration-1.0-SNAPSHOT/api/blog/' + userId + "/" + blogText);
     }
 });
 
@@ -117,6 +130,27 @@ myApp.controller('userRegistrationCtrl', function ($scope, dataService) {
         dataService.addUser($scope.firstName, $scope.lastName).then(function () {
             $scope.firstName = '';
             $scope.lastName = '';
+        });
+    };
+});
+
+myApp.controller('blogCtrl', function ($scope, dataService) {
+
+    dataService.getAllBlogPosts().then(function (dataResponse) {
+        $scope.blogposts = dataResponse.data;
+    });
+
+    $scope.getAllBlogPosts = function () {
+        dataService.getAllBlogPosts().then(function (dataResponse) {
+            $scope.blogposts = dataResponse.data;
+        });
+    };
+
+    $scope.addBlogPost = function () {
+        dataService.addBlogPost($scope.userId, $scope.blogText).then(function () {
+            $scope.blogposts = $scope.getAllBlogPosts();
+            $scope.userId = '';
+            $scope.blogText = '';
         });
     };
 });

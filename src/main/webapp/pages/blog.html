@@ -1,0 +1,19 @@
+<div>
+    <ul class="unstyled">
+        <li ng-repeat="post in blogposts">
+            {{post.user.firstName}}:
+            {{post.blogText}}
+        </li>
+    </ul>
+    <form name="newBlogPost">
+        <label>
+            User id:
+            <input type="text" ng-model="userId" required>
+        </label>
+        <label>
+            Blog text:
+            <input type="text" ng-model="blogText" required>
+        </label>
+        <button class="btn" ng-click="addBlogPost()">Post</button>
+    </form>
+</div>
