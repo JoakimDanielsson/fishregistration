@@ -1,20 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Fish registration</title>
-    <!--Angular-->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.1.5/angular.min.js"></script>
-
-    <!--css-->
-    <link href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap.min.css"
-          rel="stylesheet" type="text/css"/>
-
-    <!--Logic for fish registration-->
-    <script type="text/javascript" , src="js/registration_view.js"></script>
-</head>
-<body ng-app="registrationApp">
-
-<div ng-controller="registrationCtrl">
+<div>
     <h2>Number of fish registered: {{fishes.length}}</h2>
     <ul class="unstyled">
         <li ng-repeat="fish in fishes">
@@ -48,15 +32,3 @@
         <button class="btn" ng-click="addFish()">Register fish</button>
     </form>
 </div>
-
-<ul class="unstyled">
-    <li>
-        <a href="index.html">Go to map!</a>
-    </li>
-    <li>
-        <a href="charts.html">Go to graphs!</a>
-    </li>
-</ul>
-
-</body>
-</html>

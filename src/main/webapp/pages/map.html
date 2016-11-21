@@ -1,0 +1,8 @@
+<!--Map centered to Gothenburg-->
+<div style="width:30%; height:50%">
+    <ng-map zoom="8" center="[57.70, 11.97]">
+        <marker ng-repeat="fish in fishes"
+                position="[{{fish.latitude}}, {{fish.longitude}}]">
+        </marker>
+    </ng-map>
+</div>
