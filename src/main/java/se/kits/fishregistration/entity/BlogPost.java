@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.sql.Date;
+import java.util.Calendar;
+import java.util.TimeZone;
 
 /**
  * Created by joakim on 2016-11-16.
@@ -37,9 +40,14 @@ public class BlogPost implements Serializable {
     @Column
     private String blogText;
 
+    @Column
+    private Date date;
+
     public BlogPost(User user, String blogText) {
         this.user = user;
         this.blogText = blogText;
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Europe/Gothenburg"));
+        this.date = new Date(calendar.getTime().getTime());
     }
 
     public BlogPost(){
@@ -67,5 +75,13 @@ public class BlogPost implements Serializable {
 
     public void setBlogText(String blogText) {
         this.blogText = blogText;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 }

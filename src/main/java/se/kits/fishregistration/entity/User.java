@@ -41,6 +41,11 @@ public class User implements Serializable {
     @JsonBackReference
     private List<BlogPost> blogPosts;
 
+    @Column
+    @OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.ALL)
+    @JsonBackReference
+    private List<Fish> fish;
+
     public User(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -79,5 +84,13 @@ public class User implements Serializable {
 
     public void setBlogPosts(List<BlogPost> blogPosts) {
         this.blogPosts = blogPosts;
+    }
+
+    public List<Fish> getFish() {
+        return fish;
+    }
+
+    public void setFish(List<Fish> fish) {
+        this.fish = fish;
     }
 }

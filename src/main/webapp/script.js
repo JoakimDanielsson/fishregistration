@@ -3,8 +3,12 @@ var myApp = angular.module('myApp', ['ngRoute', 'ngMap', 'chart.js']);
 myApp.config(function($routeProvider) {
     $routeProvider
         .when('/', {
-            templateUrl : 'pages/map.html',
-            controller : 'mapCtrl'
+            templateUrl : 'pages/user_registration.html',
+            controller : 'userRegistrationCtrl'
+        })
+        .when('/user_registration', {
+            templateUrl : 'pages/user_registration.html',
+            controller : 'userRegistrationCtrl'
         })
         .when('/map', {
             templateUrl : 'pages/map.html',
@@ -18,14 +22,10 @@ myApp.config(function($routeProvider) {
             templateUrl : 'pages/charts.html',
             controller : 'chartCtrl'
         })
-        .when('/user_registration', {
-            templateUrl : 'pages/user_registration.html',
-            controller : 'userRegistrationCtrl'
-        })
         .when('/blog', {
             templateUrl : 'pages/blog.html',
             controller : 'blogCtrl'
-        })
+        });
 });
 
 myApp.service('dataService', function ($http) {
@@ -34,9 +34,10 @@ myApp.service('dataService', function ($http) {
         return $http.get('/fishregistration-1.0-SNAPSHOT/api/fish/');
     }
 
-    this.addFish = function (weight, length, longitude, latitude, species) {
+    this.addFish = function (weight, length, longitude, latitude, species, userId) {
         return $http.post('/fishregistration-1.0-SNAPSHOT/api/fish/' + weight +
-            "/" + length + "/" + longitude + "/" + latitude + "/" + species);
+            "/" + length + "/" + longitude + "/" + latitude + "/" + species +
+            "/" + userId);
     }
 
     this.deleteFish = function (id) {
@@ -47,7 +48,7 @@ myApp.service('dataService', function ($http) {
         return $http.post('/fishregistration-1.0-SNAPSHOT/api/users/' +
             firstName + "/" + lastName);
     }
-    
+
     this.getAllBlogPosts = function () {
         return $http.get('/fishregistration-1.0-SNAPSHOT/api/blog/');
     }
@@ -84,11 +85,12 @@ myApp.controller('registrationCtrl', function ($scope, dataService) {
     $scope.addFish = function () {
         dataService.addFish($scope.fishWeight, $scope.fishLength,
             $scope.fishLongitude, $scope.fishLatitude,
-            $scope.fishSpecies).then(function () {
+            $scope.fishSpecies, $scope.userId).then(function () {
             $scope.fishes = $scope.getAllFish();
             $scope.fishWeight = '';
             $scope.fishLength = '';
             $scope.fishSpecies = '';
+            $scope.userId = '';
         });
     };
 

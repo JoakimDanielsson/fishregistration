@@ -1,7 +1,7 @@
 <div>
     <ul class="unstyled">
         <li ng-repeat="post in blogposts">
-            {{post.user.firstName}}:
+            <h5>{{post.date}} {{post.user.firstName}} {{post.user.lastName}}:</h5>
             {{post.blogText}}
         </li>
     </ul>
@@ -11,8 +11,8 @@
             <input type="text" ng-model="userId" required>
         </label>
         <label>
-            Blog text:
-            <input type="text" ng-model="blogText" required>
+            <h5>Blog text:</h5>
+            <textarea type="text" ng-model="blogText" rows="7" cols="50" required></textarea>
         </label>
         <button class="btn" ng-click="addBlogPost()">Post</button>
     </form>

@@ -1,16 +1,4 @@
 <div>
-    <h2>Number of fish registered: {{fishes.length}}</h2>
-    <ul class="unstyled">
-        <li ng-repeat="fish in fishes">
-            {{fish}}
-            <td>
-                <button class="btn" ng-click="deleteFish(fish.id)">
-                    Delete fish
-                </button>
-            </td>
-        </li>
-    </ul>
-
     <form name="newRegistration">
         <label>
             Weight (kg):
@@ -29,6 +17,22 @@
                 <option value="Other">Other</option>
             </select>
         </label>
+        <label>
+            User id:
+            <input type="text" ng-model="userId" required>
+        </label>
         <button class="btn" ng-click="addFish()">Register fish</button>
     </form>
+
+    <h4>Number of fish registered: {{fishes.length}}</h4>
+    <ul class="unstyled">
+        <li ng-repeat="fish in fishes">
+            {{fish}}
+            <td>
+                <button class="btn" ng-click="deleteFish(fish.id)">
+                    Delete fish
+                </button>
+            </td>
+        </li>
+    </ul>
 </div>

@@ -5,6 +5,7 @@ package se.kits.fishregistration.boundary;
  */
 
 import se.kits.fishregistration.entity.Fish;
+import se.kits.fishregistration.entity.User;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -23,6 +24,9 @@ public class FishResource {
     @Inject
     private FishManager fishManager;
 
+    @Inject
+    private UserManager userManager;
+
     @GET
     @Produces(APPLICATION_JSON)
     @Path("/")
@@ -32,15 +36,17 @@ public class FishResource {
     }
 
     @POST
-    @Path("/{weight}/{length}/{longitude}/{latitude}/{species}")
+    @Path("/{weight}/{length}/{longitude}/{latitude}/{species}/{userId}")
     public Response createFish(
             @PathParam("weight") double weight,
             @PathParam("length") double length,
             @PathParam("longitude") double longitude,
             @PathParam("latitude") double latitude,
-            @PathParam("species") String species) {
+            @PathParam("species") String species,
+            @PathParam("userId") Long userId) {
+        User user = userManager.getUserById(userId);
         final Fish fish = fishManager.createFish(weight, length, longitude,
-                latitude, species);
+                latitude, species, user);
         return Response.created(URI.create("/fish/" + fish.getId())).build();
     }
 

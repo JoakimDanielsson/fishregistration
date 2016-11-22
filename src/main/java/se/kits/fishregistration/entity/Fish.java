@@ -1,5 +1,7 @@
 package se.kits.fishregistration.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
@@ -48,8 +50,13 @@ public class Fish implements Serializable {
     @Column
     private Date date;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @JsonManagedReference
+    private User user;
+
     public Fish(double weight, double length, double longitude,
-                double latitude, String species) {
+                double latitude, String species, User user) {
         this.weight = weight;
         this.length = length;
         this.longitude = longitude;
@@ -57,6 +64,7 @@ public class Fish implements Serializable {
         this.species = species;
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Europe/Gothenburg"));
         this.date = new Date(calendar.getTime().getTime());
+        this.user = user;
     }
 
     public Fish() {
@@ -116,5 +124,13 @@ public class Fish implements Serializable {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
