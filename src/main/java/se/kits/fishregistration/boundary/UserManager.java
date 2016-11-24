@@ -25,8 +25,8 @@ public class UserManager {
         return em.createNamedQuery("getUserById", User.class).setParameter("id", id).getSingleResult();
     }
 
-    public User createUser(String firstName, String lastName) {
-        return em.merge(new User(firstName, lastName));
+    public User createUser(User user) {
+        return em.merge(user);
     }
 
     public void deleteUser(Long id) { em.remove(getUserById(id)); }

@@ -29,9 +29,13 @@ public class FishManager {
         return em.createNamedQuery("getFishById", Fish.class).setParameter("id", id).getSingleResult();
     }
 
-    public Fish createFish(double weight, double length, double longitude,
-                           double latitude, String species, User user) {
-        return em.merge(new Fish(weight, length, longitude, latitude, species, user));
+//    public Fish createFish(double weight, double length, double longitude,
+//                           double latitude, String species, User user) {
+//        return em.merge(new Fish(weight, length, longitude, latitude, species, user));
+//    }
+
+    public Fish createFish(Fish fish) {
+        return em.merge(fish);
     }
 
     public void deleteFish(Long id) {

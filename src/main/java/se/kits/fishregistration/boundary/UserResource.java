@@ -9,6 +9,7 @@ import se.kits.fishregistration.entity.User;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import java.net.URI;
@@ -31,13 +32,21 @@ public class UserResource {
         return Response.ok(users).build();
     }
 
+    @GET
+    @Produces(APPLICATION_JSON)
+    @Path("/{id}")
+    public Response getUserById(@PathParam("id") Long id) {
+        User user = userManager.getUserById(id);
+        return Response.ok(user).build();
+    }
+
     @POST
-    @Path("/{firstName}/{lastName}")
-    public Response createUser(
-            @PathParam("firstName") String firstName,
-            @PathParam("lastName") String lastName) {
-        final User user = userManager.createUser(firstName, lastName);
-        return Response.created(URI.create("/users/" + user.getId())).build();
+    @Path("/")
+    @Consumes(APPLICATION_JSON)
+    @Produces(APPLICATION_JSON)
+    public Response createUser(User user) {
+        final User newUser = userManager.createUser(user);
+        return Response.created(URI.create("/users/" + newUser.getId())).build();
     }
 
     @DELETE

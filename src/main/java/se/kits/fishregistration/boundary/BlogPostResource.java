@@ -5,6 +5,7 @@ import se.kits.fishregistration.entity.User;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.json.JsonObject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
@@ -44,6 +45,17 @@ public class BlogPostResource {
         final BlogPost blogPost = blogPostManager.createBlogPost(user, blogText);
         return Response.created(URI.create("/blog/" + blogPost.getId())).build();
     }
+
+//    @POST
+//    @Consumes(APPLICATION_JSON)
+//    @Path("/")
+//    public Response createBlogPost(JsonObject obj) {
+//        Long userId = Long.parseLong(obj.getString("userId"));
+//        String blogText = obj.getString("blogText");
+//        User user = userManager.getUserById(userId);
+//        final BlogPost blogPost = blogPostManager.createBlogPost(user, blogText);
+//        return Response.created(URI.create("/blog/" + blogPost.getId())).build();
+//    }
 
     @DELETE
     @Path("/{blogId}")

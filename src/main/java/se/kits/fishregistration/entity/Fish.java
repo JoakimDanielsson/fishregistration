@@ -47,25 +47,25 @@ public class Fish implements Serializable {
     @Column
     private String species;
 
-    @Column
-    private Date date;
+//    @Column
+//    private Date date;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     @JsonManagedReference
     private User user;
 
-    public Fish(double weight, double length, double longitude,
-                double latitude, String species, User user) {
-        this.weight = weight;
-        this.length = length;
-        this.longitude = longitude;
-        this.latitude = latitude;
-        this.species = species;
-        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Europe/Gothenburg"));
-        this.date = new Date(calendar.getTime().getTime());
-        this.user = user;
-    }
+//    public Fish(double weight, double length, double longitude,
+//                double latitude, String species, User user) {
+//        this.weight = weight;
+//        this.length = length;
+//        this.longitude = longitude;
+//        this.latitude = latitude;
+//        this.species = species;
+//        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Europe/Gothenburg"));
+//        this.date = new Date(calendar.getTime().getTime());
+//        this.user = user;
+//    }
 
     public Fish() {
     }
@@ -118,13 +118,13 @@ public class Fish implements Serializable {
         this.species = species;
     }
 
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
+//    public Date getDate() {
+//        return date;
+//    }
+//
+//    public void setDate(Date date) {
+//        this.date = date;
+//    }
 
     public User getUser() {
         return user;

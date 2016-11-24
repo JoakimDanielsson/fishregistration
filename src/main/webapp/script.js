@@ -1,4 +1,4 @@
-var myApp = angular.module('myApp', ['ngRoute', 'ngMap', 'chart.js']);
+var myApp = angular.module('myApp', ['ngRoute', 'ngMap', 'chart.js', 'ngResource']);
 
 myApp.config(function($routeProvider) {
     $routeProvider
@@ -28,11 +28,22 @@ myApp.config(function($routeProvider) {
         });
 });
 
-myApp.service('dataService', function ($http) {
+myApp.factory('dataFactory', function ($resource) {
 
-    this.getAllFish = function () {
-        return $http.get('/fishregistration-1.0-SNAPSHOT/api/fish/');
-    }
+    var factory = {};
+
+    factory.fish = $resource('/fishregistration-1.0-SNAPSHOT/api/fish/');
+
+    factory.blogPosts = $resource('/fishregistration-1.0-SNAPSHOT/api/blog/');
+
+    factory.user = $resource('/fishregistration-1.0-SNAPSHOT/api/users/');
+
+    factory.userById = $resource('/fishregistration-1.0-SNAPSHOT/api/users/:userId');
+
+    return factory;
+})
+
+myApp.service('dataService', function ($http) {
 
     this.addFish = function (weight, length, longitude, latitude, species, userId) {
         return $http.post('/fishregistration-1.0-SNAPSHOT/api/fish/' + weight +
@@ -44,31 +55,20 @@ myApp.service('dataService', function ($http) {
         return $http.delete('/fishregistration-1.0-SNAPSHOT/api/fish/' + id);
     }
 
-    this.addUser = function (firstName, lastName) {
-        return $http.post('/fishregistration-1.0-SNAPSHOT/api/users/' +
-            firstName + "/" + lastName);
-    }
-
-    this.getAllBlogPosts = function () {
-        return $http.get('/fishregistration-1.0-SNAPSHOT/api/blog/');
-    }
-
     this.addBlogPost = function (userId, blogText) {
         return $http.post('/fishregistration-1.0-SNAPSHOT/api/blog/' + userId + "/" + blogText);
     }
 });
 
-myApp.controller('mapCtrl', function ($scope, dataService) {
-    dataService.getAllFish().then(function (dataResponse) {
-        $scope.fishes = dataResponse.data;
-    });
+
+
+myApp.controller('mapCtrl', function ($scope, dataFactory) {
+    var fishes = dataFactory.fish.query(function() { $scope.fishes = fishes; });
 });
 
-myApp.controller('registrationCtrl', function ($scope, dataService) {
+myApp.controller('registrationCtrl', function ($scope, dataService, dataFactory) {
 
-    dataService.getAllFish().then(function (dataResponse) {
-        $scope.fishes = dataResponse.data;
-    });
+    var fishes = dataFactory.fish.query(function() { $scope.fishes = fishes; });
 
     //Get the current position. Will not change until the page is reloaded.
     navigator.geolocation.getCurrentPosition(function (position) {
@@ -76,32 +76,45 @@ myApp.controller('registrationCtrl', function ($scope, dataService) {
         $scope.fishLongitude = position.coords.longitude;
     });
 
-    $scope.getAllFish = function () {
-        dataService.getAllFish().then(function (dataResponse) {
-            $scope.fishes = dataResponse.data;
-        });
-    };
+//        $scope.addUser = function () {
+//            var user = new dataFactory.user;
+//            user.firstName = $scope.firstName;
+//            user.lastName = $scope.lastName;
+//            user.$save().then( function () {
+//                $scope.firstName = '';
+//                $scope.lastName = '';
+//            });
+//        };
 
     $scope.addFish = function () {
-        dataService.addFish($scope.fishWeight, $scope.fishLength,
-            $scope.fishLongitude, $scope.fishLatitude,
-            $scope.fishSpecies, $scope.userId).then(function () {
-            $scope.fishes = $scope.getAllFish();
-            $scope.fishWeight = '';
-            $scope.fishLength = '';
-            $scope.fishSpecies = '';
-            $scope.userId = '';
-        });
+    //Add a temp user
+        var User = new dataFactory.userById;
+            User.$get({userId:$scope.userId}, function (user) {
+                var fish = new dataFactory.fish;
+                fish.weight = $scope.fishWeight;
+                fish.length = $scope.fishLength;
+                fish.longitude = $scope.fishLongitude;
+                fish.latitude = $scope.fishLatitude;
+                fish.species = $scope.fishSpecies;
+                fish.user = user;
+                fish.$save().then( function () {
+                    var fishes = dataFactory.fish.query(function() { $scope.fishes = fishes; });
+                    $scope.fishWeight = '';
+                    $scope.fishLength = '';
+                    $scope.fishSpecies = '';
+                    $scope.userId = '';
+                });
+            });
     };
 
     $scope.deleteFish = function (id) {
         dataService.deleteFish(id).then(function () {
-            $scope.fishes = $scope.getAllFish();
+            var fishes = dataFactory.fish.query(function() { $scope.fishes = fishes; });
         });
     };
 });
 
-myApp.controller('chartCtrl', function ($scope, dataService) {
+myApp.controller('chartCtrl', function ($scope, dataFactory) {
 
      $scope.pielabels = ["Sea Trout", "Pike", "Redfin", "Other"];
      $scope.barlabels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul",
@@ -112,8 +125,9 @@ myApp.controller('chartCtrl', function ($scope, dataService) {
                                    .map(function(item, index){
                                             return ++index;});
 
-     dataService.getAllFish().then(function (dataResponse) {
-         $scope.fishes = dataResponse.data;
+     var fishes = dataFactory.fish.query(function() {
+
+         $scope.fishes = fishes;
 
          //Filter fish by species and return the number of each species in piedata
          $scope.piedata = $scope.pielabels.map(function (species) {
@@ -124,33 +138,28 @@ myApp.controller('chartCtrl', function ($scope, dataService) {
          $scope.bardata = monthNr.map(function (month) {
              return ($scope.fishes.filter(function (fish) {
                  return parseInt(fish.date.substring(5, 7)) == month})).length});
-     });
+     })
 });
 
-myApp.controller('userRegistrationCtrl', function ($scope, dataService) {
+myApp.controller('userRegistrationCtrl', function ($scope, dataFactory) {
     $scope.addUser = function () {
-        dataService.addUser($scope.firstName, $scope.lastName).then(function () {
+        var user = new dataFactory.user;
+        user.firstName = $scope.firstName;
+        user.lastName = $scope.lastName;
+        user.$save().then( function () {
             $scope.firstName = '';
             $scope.lastName = '';
         });
     };
 });
 
-myApp.controller('blogCtrl', function ($scope, dataService) {
+myApp.controller('blogCtrl', function ($scope, dataService, dataFactory) {
 
-    dataService.getAllBlogPosts().then(function (dataResponse) {
-        $scope.blogposts = dataResponse.data;
-    });
-
-    $scope.getAllBlogPosts = function () {
-        dataService.getAllBlogPosts().then(function (dataResponse) {
-            $scope.blogposts = dataResponse.data;
-        });
-    };
+    var blogPosts = dataFactory.blogPosts.query(function() { $scope.blogposts = blogPosts; });
 
     $scope.addBlogPost = function () {
         dataService.addBlogPost($scope.userId, $scope.blogText).then(function () {
-            $scope.blogposts = $scope.getAllBlogPosts();
+            var blogPosts = dataFactory.blogPosts.query(function() { $scope.blogposts = blogPosts; });
             $scope.userId = '';
             $scope.blogText = '';
         });

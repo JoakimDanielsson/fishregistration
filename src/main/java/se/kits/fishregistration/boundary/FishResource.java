@@ -34,21 +34,26 @@ public class FishResource {
         List<Fish> fish = fishManager.getAllFish();
         return Response.ok(fish).build();
     }
-
     @POST
-    @Path("/{weight}/{length}/{longitude}/{latitude}/{species}/{userId}")
-    public Response createFish(
-            @PathParam("weight") double weight,
-            @PathParam("length") double length,
-            @PathParam("longitude") double longitude,
-            @PathParam("latitude") double latitude,
-            @PathParam("species") String species,
-            @PathParam("userId") Long userId) {
-        User user = userManager.getUserById(userId);
-        final Fish fish = fishManager.createFish(weight, length, longitude,
-                latitude, species, user);
-        return Response.created(URI.create("/fish/" + fish.getId())).build();
+    @Path("/")
+    public Response createFish(Fish fish) {
+        final Fish newFish = fishManager.createFish(fish);
+        return Response.created(URI.create("/fish/" + newFish.getId())).build();
     }
+//    @POST
+//    @Path("/{weight}/{length}/{longitude}/{latitude}/{species}/{userId}")
+//    public Response createFish(
+//            @PathParam("weight") double weight,
+//            @PathParam("length") double length,
+//            @PathParam("longitude") double longitude,
+//            @PathParam("latitude") double latitude,
+//            @PathParam("species") String species,
+//            @PathParam("userId") Long userId) {
+//        User user = userManager.getUserById(userId);
+//        final Fish fish = fishManager.createFish(weight, length, longitude,
+//                latitude, species, user);
+//        return Response.created(URI.create("/fish/" + fish.getId())).build();
+//    }
 
     @DELETE
     @Path("/{id}")
