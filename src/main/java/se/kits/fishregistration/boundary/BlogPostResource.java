@@ -10,7 +10,10 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
 import java.net.URI;
+import java.sql.Date;
+import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
@@ -37,25 +40,13 @@ public class BlogPostResource {
     }
 
     @POST
-    @Path("/{userId}/{blogText}")
-    public Response createBlogPost(
-            @PathParam("userId") Long userId,
-            @PathParam("blogText") String blogText) {
-        User user = userManager.getUserById(userId);
-        final BlogPost blogPost = blogPostManager.createBlogPost(user, blogText);
-        return Response.created(URI.create("/blog/" + blogPost.getId())).build();
+    @Path("/")
+    public Response createBlogPost(BlogPost blogPost) {
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Europe/Gothenburg"));
+        blogPost.setDate(new Date(calendar.getTime().getTime()));
+        final BlogPost newBlogPost = blogPostManager.createBlogPost(blogPost);
+        return Response.created(URI.create("/blog/" + newBlogPost.getId())).build();
     }
-
-//    @POST
-//    @Consumes(APPLICATION_JSON)
-//    @Path("/")
-//    public Response createBlogPost(JsonObject obj) {
-//        Long userId = Long.parseLong(obj.getString("userId"));
-//        String blogText = obj.getString("blogText");
-//        User user = userManager.getUserById(userId);
-//        final BlogPost blogPost = blogPostManager.createBlogPost(user, blogText);
-//        return Response.created(URI.create("/blog/" + blogPost.getId())).build();
-//    }
 
     @DELETE
     @Path("/{blogId}")

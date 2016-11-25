@@ -32,41 +32,20 @@ myApp.factory('dataFactory', function ($resource) {
 
     var factory = {};
 
-    factory.fish = $resource('/fishregistration-1.0-SNAPSHOT/api/fish/');
+    factory.fish = $resource('/fishregistration-1.0-SNAPSHOT/api/fish/:fishId');
 
     factory.blogPosts = $resource('/fishregistration-1.0-SNAPSHOT/api/blog/');
 
-    factory.user = $resource('/fishregistration-1.0-SNAPSHOT/api/users/');
-
-    factory.userById = $resource('/fishregistration-1.0-SNAPSHOT/api/users/:userId');
+    factory.user = $resource('/fishregistration-1.0-SNAPSHOT/api/users/:userId');
 
     return factory;
 })
-
-myApp.service('dataService', function ($http) {
-
-    this.addFish = function (weight, length, longitude, latitude, species, userId) {
-        return $http.post('/fishregistration-1.0-SNAPSHOT/api/fish/' + weight +
-            "/" + length + "/" + longitude + "/" + latitude + "/" + species +
-            "/" + userId);
-    }
-
-    this.deleteFish = function (id) {
-        return $http.delete('/fishregistration-1.0-SNAPSHOT/api/fish/' + id);
-    }
-
-    this.addBlogPost = function (userId, blogText) {
-        return $http.post('/fishregistration-1.0-SNAPSHOT/api/blog/' + userId + "/" + blogText);
-    }
-});
-
-
 
 myApp.controller('mapCtrl', function ($scope, dataFactory) {
     var fishes = dataFactory.fish.query(function() { $scope.fishes = fishes; });
 });
 
-myApp.controller('registrationCtrl', function ($scope, dataService, dataFactory) {
+myApp.controller('registrationCtrl', function ($scope, dataFactory) {
 
     var fishes = dataFactory.fish.query(function() { $scope.fishes = fishes; });
 
@@ -76,39 +55,29 @@ myApp.controller('registrationCtrl', function ($scope, dataService, dataFactory)
         $scope.fishLongitude = position.coords.longitude;
     });
 
-//        $scope.addUser = function () {
-//            var user = new dataFactory.user;
-//            user.firstName = $scope.firstName;
-//            user.lastName = $scope.lastName;
-//            user.$save().then( function () {
-//                $scope.firstName = '';
-//                $scope.lastName = '';
-//            });
-//        };
-
     $scope.addFish = function () {
-    //Add a temp user
-        var User = new dataFactory.userById;
-            User.$get({userId:$scope.userId}, function (user) {
-                var fish = new dataFactory.fish;
-                fish.weight = $scope.fishWeight;
-                fish.length = $scope.fishLength;
-                fish.longitude = $scope.fishLongitude;
-                fish.latitude = $scope.fishLatitude;
-                fish.species = $scope.fishSpecies;
-                fish.user = user;
-                fish.$save().then( function () {
-                    var fishes = dataFactory.fish.query(function() { $scope.fishes = fishes; });
-                    $scope.fishWeight = '';
-                    $scope.fishLength = '';
-                    $scope.fishSpecies = '';
-                    $scope.userId = '';
-                });
+        var User = new dataFactory.user;
+        User.$get({userId:$scope.userId}, function (user) {
+            var fish = new dataFactory.fish;
+            fish.weight = $scope.fishWeight;
+            fish.length = $scope.fishLength;
+            fish.longitude = $scope.fishLongitude;
+            fish.latitude = $scope.fishLatitude;
+            fish.species = $scope.fishSpecies;
+            fish.user = user;
+            fish.$save().then( function () {
+                var fishes = dataFactory.fish.query(function() { $scope.fishes = fishes; });
+                $scope.fishWeight = '';
+                $scope.fishLength = '';
+                $scope.fishSpecies = '';
+                $scope.userId = '';
             });
+        });
     };
 
     $scope.deleteFish = function (id) {
-        dataService.deleteFish(id).then(function () {
+        var Fish = new dataFactory.fish;
+        Fish.$delete({fishId:id}).then( function () {
             var fishes = dataFactory.fish.query(function() { $scope.fishes = fishes; });
         });
     };
@@ -153,15 +122,22 @@ myApp.controller('userRegistrationCtrl', function ($scope, dataFactory) {
     };
 });
 
-myApp.controller('blogCtrl', function ($scope, dataService, dataFactory) {
+myApp.controller('blogCtrl', function ($scope, dataFactory) {
 
     var blogPosts = dataFactory.blogPosts.query(function() { $scope.blogposts = blogPosts; });
 
     $scope.addBlogPost = function () {
-        dataService.addBlogPost($scope.userId, $scope.blogText).then(function () {
-            var blogPosts = dataFactory.blogPosts.query(function() { $scope.blogposts = blogPosts; });
-            $scope.userId = '';
-            $scope.blogText = '';
+        var User = new dataFactory.user;
+        User.$get({userId:$scope.userId}, function (user) {
+            var blogPost = new dataFactory.blogPosts;
+            blogPost.blogText = $scope.blogText;
+            blogPost.user = user;
+            blogPost.$save().then( function () {
+                var blogPosts = dataFactory.blogPosts.query(function() { $scope.blogposts = blogPosts; });
+                $scope.blogText = '';
+                $scope.userId = '';
+            })
         });
+
     };
 });

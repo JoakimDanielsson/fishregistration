@@ -1,12 +1,10 @@
 package se.kits.fishregistration.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
 
 /**
  * Created by joakim on 2016-11-11.
@@ -38,16 +36,15 @@ public class User implements Serializable {
     @Column
     private String lastName;
 
-//    @Column
-//    @OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.ALL)
-//    @JsonIgnore
-//    private List<BlogPost> blogPosts;
+    @Column
+    @OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Set<BlogPost> blogPosts;
 
     @Column
     @OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.ALL)
-    //@JsonBackReference
     @JsonIgnore
-    private List<Fish> fish;
+    private Set<Fish> fish;
 
     public User() {
     }
@@ -76,19 +73,19 @@ public class User implements Serializable {
         this.lastName = lastName;
     }
 
-//    public List<BlogPost> getBlogPosts() {
-//        return blogPosts;
-//    }
-//
-//    public void setBlogPosts(List<BlogPost> blogPosts) {
-//        this.blogPosts = blogPosts;
-//    }
+    public Set<BlogPost> getBlogPosts() {
+        return blogPosts;
+    }
 
-    public List<Fish> getFish() {
+    public void setBlogPosts(Set<BlogPost> blogPosts) {
+        this.blogPosts = blogPosts;
+    }
+
+    public Set<Fish> getFish() {
         return fish;
     }
 
-    public void setFish(List<Fish> fish) {
+    public void setFish(Set<Fish> fish) {
         this.fish = fish;
     }
 }

@@ -1,12 +1,10 @@
 package se.kits.fishregistration.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
-import java.util.Calendar;
-import java.util.TimeZone;
 
 /**
  * Created by joakim on 2016-11-16.
@@ -33,8 +31,7 @@ public class BlogPost implements Serializable {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    @JsonManagedReference
+    @JoinColumn(name="user_id")
     private User user;
 
     @Column
@@ -42,13 +39,6 @@ public class BlogPost implements Serializable {
 
     @Column
     private Date date;
-
-    public BlogPost(User user, String blogText) {
-        this.user = user;
-        this.blogText = blogText;
-        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Europe/Gothenburg"));
-        this.date = new Date(calendar.getTime().getTime());
-    }
 
     public BlogPost(){
     }

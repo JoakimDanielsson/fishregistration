@@ -5,14 +5,16 @@ package se.kits.fishregistration.boundary;
  */
 
 import se.kits.fishregistration.entity.Fish;
-import se.kits.fishregistration.entity.User;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.net.URI;
+import java.sql.Date;
+import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
@@ -24,9 +26,6 @@ public class FishResource {
     @Inject
     private FishManager fishManager;
 
-    @Inject
-    private UserManager userManager;
-
     @GET
     @Produces(APPLICATION_JSON)
     @Path("/")
@@ -34,26 +33,15 @@ public class FishResource {
         List<Fish> fish = fishManager.getAllFish();
         return Response.ok(fish).build();
     }
+
     @POST
     @Path("/")
     public Response createFish(Fish fish) {
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Europe/Gothenburg"));
+        fish.setDate(new Date(calendar.getTime().getTime()));
         final Fish newFish = fishManager.createFish(fish);
         return Response.created(URI.create("/fish/" + newFish.getId())).build();
     }
-//    @POST
-//    @Path("/{weight}/{length}/{longitude}/{latitude}/{species}/{userId}")
-//    public Response createFish(
-//            @PathParam("weight") double weight,
-//            @PathParam("length") double length,
-//            @PathParam("longitude") double longitude,
-//            @PathParam("latitude") double latitude,
-//            @PathParam("species") String species,
-//            @PathParam("userId") Long userId) {
-//        User user = userManager.getUserById(userId);
-//        final Fish fish = fishManager.createFish(weight, length, longitude,
-//                latitude, species, user);
-//        return Response.created(URI.create("/fish/" + fish.getId())).build();
-//    }
 
     @DELETE
     @Path("/{id}")

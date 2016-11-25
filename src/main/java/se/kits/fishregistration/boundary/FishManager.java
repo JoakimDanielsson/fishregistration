@@ -1,7 +1,6 @@
 package se.kits.fishregistration.boundary;
 
 import se.kits.fishregistration.entity.Fish;
-import se.kits.fishregistration.entity.User;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -28,11 +27,6 @@ public class FishManager {
     public Fish getFishById(Long id) {
         return em.createNamedQuery("getFishById", Fish.class).setParameter("id", id).getSingleResult();
     }
-
-//    public Fish createFish(double weight, double length, double longitude,
-//                           double latitude, String species, User user) {
-//        return em.merge(new Fish(weight, length, longitude, latitude, species, user));
-//    }
 
     public Fish createFish(Fish fish) {
         return em.merge(fish);

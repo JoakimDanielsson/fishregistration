@@ -1,7 +1,6 @@
 package se.kits.fishregistration.boundary;
 
 import se.kits.fishregistration.entity.BlogPost;
-import se.kits.fishregistration.entity.User;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -26,8 +25,8 @@ public class BlogPostManager {
         return em.createNamedQuery("getBlogPostById", BlogPost.class).setParameter("id", id).getSingleResult();
     }
 
-    public BlogPost createBlogPost(User user, String blogText) {
-        return em.merge(new BlogPost(user, blogText));
+    public BlogPost createBlogPost(BlogPost blogPost) {
+        return em.merge(blogPost);
     }
 
     public void deleteBlogPost(Long id) { em.remove(getBlogPostById(id)); }
